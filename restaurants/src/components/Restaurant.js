@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 
 function Restaurant(props) {
 
@@ -13,3 +13,4 @@ function Restaurant(props) {
 }
 
 export default Restaurant;
+*/

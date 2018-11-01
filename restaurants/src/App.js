@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import './App.css';
-import Restaurant from './components/Restaurant';
+//import Restaurant from './components/Restaurant';
 
 class App extends Component {
   constructor(props) {
@@ -81,6 +81,7 @@ class App extends Component {
 
   }
 
+
   componentWillMount() {
     console.log("Component will mount");
     // on va chercher des donnees sur le Web avec fetch, comme
@@ -89,26 +90,43 @@ class App extends Component {
   }
   
   render() {
-    // let list = this.state.restaurants.map(
-		// 	(el) => {
-		// 		return <li onClick={() => this.removeRestaurants(el)} key={el}>{el}</li>
-		// 	}
-    // );
-    
+
+    let listeRestos = this.state.restaurants.map( (resto, index) => {
+      return(
+        <tr v-for="(restaurant,index) in filteredrestaurants" key={index}>
+          <td>{resto.name}</td>
+          <td>{resto.cuisine}</td>
+          <td>
+          </td>
+        </tr>
+      )}
+    );
+
+/*
     let listAvecComponent = 
 				this.state.restaurants.map((el, index) => {
 				return <Restaurant restaurant={el} key={index} removeRestaurants={this.removeRestaurants.bind(this)}/>
 			}
     );
-    
+  */  
     return (
+
       <div className="App">
-        <h3>Table des restaurants :</h3>
-      
-        <p style={{color: (this.state.restaurants.length < 5) ? 'green' : 'red'}}>
-            Nombre de restaurants : {this.state.restaurants.length}
-        </p>
-          <tbody>{listAvecComponent}</tbody>
+              <h3>Table des restaurants :</h3>
+              Nombre de restaurants : {this.state.restaurants.length}
+
+        <table className="table table-bordered" id="myTable">
+      <thead className="thead-dark">
+      <tr>
+          <th>Nom</th>
+          <th>Cuisine</th>
+          <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+        {listeRestos}
+      </tbody>
+      </table>
       </div>
     );
   }
