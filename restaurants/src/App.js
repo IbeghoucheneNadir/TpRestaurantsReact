@@ -87,7 +87,16 @@ class App extends Component {
      });
 
   }
-
+  AfficherMasquer()
+  {
+  var divInfo = document.getElementById('ajoutRestaurant');
+   
+  if (divInfo.style.display == 'none')
+  divInfo.style.display = 'block';
+  else
+  divInfo.style.display = 'none';
+   
+  }
 
   componentWillMount() {
     console.log("Component will mount");
@@ -101,7 +110,7 @@ class App extends Component {
       [e.target.name]:e.target.value
     })
   }
-  onSubmit=e=>{
+  addRestaurant=e=>{
    //var snomRestaurant = this.refs.nomResto.getDOMNode().value;
     e.preventDefault();
     console.log(this.state.nomRestaurant);
@@ -114,6 +123,9 @@ class App extends Component {
 		this.setState({
       restaurants: oldRestaurants.concat(newRestaurant),
     });
+   // var divInfo = document.getElementById('ajoutRestaurant');
+   // divInfo.style.display = 'none';
+
   }
   render() {
 
@@ -124,42 +136,46 @@ class App extends Component {
           <td>{resto.cuisine}</td>
           <td>
             <button onClick={() => this.removeRestaurants(resto)}>Delete</button>
-            <button onClick={() => this.editRestaurants(resto)}>Edit</button>
+            <button onClick={() => this.AfficherMasquer()}>Edit</button>
           </td>
         </tr>
       )}
     );
-
-/*
-    let listAvecComponent = 
-				this.state.restaurants.map((el, index) => {
-				return <Restaurant restaurant={el} key={index} removeRestaurants={this.removeRestaurants.bind(this)}/>
-			}
-    );
-  */  
-
-  
+    
     return (
 
-      <div className="App">
+      <div id="app">
+      <div id="entete">
               <h3>Table des restaurants :</h3>
               Nombre de restaurants : {this.state.restaurants.length}
+              <form>
+                <input type="text" id="inputtaille"  placeholder="Chercher par nom"/> 
+              </form>
+              <br/> 
+      </div>
+              <div id="divGlobal">
+              <div id="divLeft"></div>
+        <div id="bloc-center">
 
-        <table className="table table-bordered" id="myTable">
-      <thead className="thead-dark">
+        <table  id="myTable" >
+      <thead >
       <tr>
-          <th>Nom</th>
-          <th>Cuisine</th>
-          <th>Action</th>
+          <th><p>Nom</p></th>
+          <th><p>Cuisine</p></th>
+          <th><p>Action</p></th>
       </tr>
       </thead>
       <tbody>
         {listeRestos}
       </tbody>
       </table>
-      <div className="well">
+  </div>
+  
+  <div id="ajoutRestaurant">
+<div>
+<form id="formAjout">
 <h3>Ajouter un restaurant </h3>
-<form>
+
     <div  >
           <input type="text" 
           name="nomRestaurant"
@@ -177,11 +193,13 @@ class App extends Component {
            ref="cuisineResto" />
     </div>
     <div >
-            <button onClick={e=>this.onSubmit(e)}>Créer un restaurant</button>
+            <button onClick={e=>this.addRestaurant(e)}>Créer un restaurant</button>
     </div>
 </form>
 </div>
-      </div>
+</div>
+</div>
+</div>
     );
   }
 }

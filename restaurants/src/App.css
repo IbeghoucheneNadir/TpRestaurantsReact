@@ -7,6 +7,34 @@
   height: 40vmin;
 }
 
+#divGlobal{
+  width:100%;
+}
+#divLeft, #bloc-center, #ajoutRestaurant {
+  display: inline-block;
+  vertical-align: top;
+}
+#divLeft{
+  width: 20%;
+}
+#bloc-center{
+  width:60%; 
+  
+}
+
+#ajoutRestaurant{
+  width: 20%;
+  background-color: antiquewhite;
+ /* display :none;*/
+}
+
+#formAjout{
+  background-color: blue;
+}
+
+#myTable{
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -17,7 +45,35 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+th {
+  width: 300px;
+  background-color:black;
+  border:1px solid #282c34;
 
+}
+#entete{
+  margin-left: 20%;
+}
+#inputtaille{
+  width: 900px;
+  height: 30px;
+}
+td{
+  border-collapse:collapse;
+  border:1px solid #282c34;
+  height: 50px;
+  top: 0%;
+}
+p{
+  color: blanchedalmond;
+}
+
+#myTable{
+  border-collapse:collapse;
+} 
+tbody{
+  border:2 px solid black;
+}
 .App-link {
   color: #61dafb;
 }
