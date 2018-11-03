@@ -3,17 +3,26 @@ import React, { Component } from 'react';
 import './App.css';
 //import Restaurant from './components/Restaurant';
 
+
 class App extends Component {
+  
   constructor(props) {
     super(props);
       
     this.state = {
       restaurants:[],
       newResName: '',
-      newResCuisine: ''
+      newResCuisine: '',
+      nomRestaurant:'',
+      nomCuisine:''
     }
     this.update = this.update.bind(this);
   }
+  
+
+
+
+  
 	update(event){
     let target = event.target;
     let name = target.name;
@@ -39,11 +48,7 @@ class App extends Component {
   }
   
   removeRestaurants(restaurant) {
-		/*
-		let oldHobbies = this.state.hobbies;
-		let pos = this.state.hobbies.indexOf(Restaurant);
-		oldHobbies.splice(pos, 1);
-		*/
+	
 	const oldRestaurants = this.state.restaurants.filter(
       (elem, index) => {
         console.log(elem)
@@ -54,7 +59,9 @@ class App extends Component {
 		this.setState({
 			restaurants: oldRestaurants
 		});
-	}
+  }
+  
+ 
   getDataFromServer() {
     console.log("--- GETTING DATA ---");
      fetch('http://localhost:8080/api/restaurants')
@@ -88,7 +95,26 @@ class App extends Component {
     // on a fait avec VueJS
     this.getDataFromServer();
   }
-  
+
+  change =e => {
+    this.setState({
+      [e.target.name]:e.target.value
+    })
+  }
+  onSubmit=e=>{
+   //var snomRestaurant = this.refs.nomResto.getDOMNode().value;
+    e.preventDefault();
+    console.log(this.state.nomRestaurant);
+
+    let oldRestaurants = this.state.restaurants;
+    let newRestaurant = {
+      name : this.state.nomRestaurant,
+      cuisine : this.state.nomCuisine
+    }
+		this.setState({
+      restaurants: oldRestaurants.concat(newRestaurant),
+    });
+  }
   render() {
 
     let listeRestos = this.state.restaurants.map( (resto, index) => {
@@ -97,6 +123,8 @@ class App extends Component {
           <td>{resto.name}</td>
           <td>{resto.cuisine}</td>
           <td>
+            <button onClick={() => this.removeRestaurants(resto)}>Delete</button>
+            <button onClick={() => this.editRestaurants(resto)}>Edit</button>
           </td>
         </tr>
       )}
@@ -109,6 +137,8 @@ class App extends Component {
 			}
     );
   */  
+
+  
     return (
 
       <div className="App">
@@ -127,6 +157,30 @@ class App extends Component {
         {listeRestos}
       </tbody>
       </table>
+      <div className="well">
+<h3>Ajouter un restaurant </h3>
+<form>
+    <div  >
+          <input type="text" 
+          name="nomRestaurant"
+          placeholder="restaurant" 
+          value={this.state.nomRestaurant}
+          onChange={e=>this.change(e)}
+          ref="nomResto" />
+    </div>
+    <div >
+           <input type="text"
+           name="nomCuisine"
+           placeholder="cuisine"
+           value={this.state.cuisineRestaurant}
+           onChange={e=>this.change(e) }
+           ref="cuisineResto" />
+    </div>
+    <div >
+            <button onClick={e=>this.onSubmit(e)}>Créer un restaurant</button>
+    </div>
+</form>
+</div>
       </div>
     );
   }
