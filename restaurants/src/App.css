@@ -85,7 +85,7 @@ select{
   float: right;
   border-radius: 4px;
 }
-#idButton1, #idButton2, #idButton3{
+#idButton1, #idButton2, #idButton3, #idButtonMax{
   width: 45px;
   height: 45px;
   margin-right: 1px;

@@ -109,15 +109,28 @@ class App extends Component {
     })
   }
 
-  naviger(event){
+  changeOutputTable(event){
+    let select = document.getElementById("nomRechercher");
+    // a venir 
+  }
 
+  naviger(event){
     let butn = event.target.innerText;
     let num = parseInt(butn);
- 
     
     this.setState({page: num}, () => this.componentWillMount());
   }
 
+  nombreElementParPage(event){
+    let select = document.getElementById("nbChoisit");
+    let choice = select.selectedIndex;
+    let valeur = select.options[choice].value;
+    let num = parseInt(valeur);
+    
+    this.setState({nbResto: num}, () => this.componentWillMount());
+
+    //texte = select.options[choice].text;
+  }
   addRestaurant=e=>{
    //var snomRestaurant = this.refs.nomResto.getDOMNode().value;
     e.preventDefault();
@@ -160,7 +173,7 @@ class App extends Component {
               
             <br/><label>Elements par page  </label>
               
-                <select defaultValue="10">
+                <select id="nbChoisit" defaultValue="10" onChange={(event) => this.nombreElementParPage(event)}>
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="15">15</option>
@@ -172,7 +185,7 @@ class App extends Component {
                 <input 
                  name="nomRechercher"
                 // value={this.state.nomRechercher}
-                 onChange={e=>this.changeOutputTable()}  //  onChange={this.changeInputMessage.bind(this)}
+                 onChange={(event)=>this.changeOutputTable(event)}  //  onChange={this.changeInputMessage.bind(this)}
                  ref="nomRechercher"
                  type="text"
                  id="nomRechercher"
@@ -202,7 +215,7 @@ class App extends Component {
               <button type="button" id="idButton1" onClick={(event) => this.naviger(event)}><p>1</p></button>
               <button type="button" id="idButton2" onClick={(event) => this.naviger(event)}><p>2</p></button>
               <button type="button" id="idButton3" onClick={(event) => this.naviger(event)}><p>3</p></button>
-              ........<button type="button" id="idButton" onClick={(event) => this.naviger(event)}><p>Suivat</p></button>
+              ........<button type="button" id="idButtonMax" onClick={(event) => this.naviger(event)}><p>Max</p></button>
      </div>
      <br/><br/>
   </div>
