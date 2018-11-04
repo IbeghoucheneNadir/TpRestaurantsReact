@@ -15,7 +15,9 @@ class App extends Component {
       nomRestaurant:'',
       nomCuisine:'',
       nomRechercher:'',
-      value2:null
+      value2:null,
+      nbResto: 10,
+      page: 1,
     }
     this.update = this.update.bind(this);
   }
@@ -61,13 +63,12 @@ class App extends Component {
  
   getDataFromServer() {
     console.log("--- GETTING DATA ---");
-     fetch('http://localhost:8080/api/restaurants')
+     fetch('http://localhost:8080/api/restaurants?page='+ this.state.page + "&pagesize=" + this.state.nbResto)
      .then(response => {
        return response.json() // transforme le json texte en objet js
      })
      .then(res => { // data c'est le texte json de response ci-dessus
        let restaurants = [];
-      //  let cuisine = [];
        res.data.forEach((el) => {
          let restaurant = {
             name:el.name,
@@ -82,8 +83,8 @@ class App extends Component {
      }).catch(err => {
        console.log("erreur dans le get : " + err)
      });
-
   }
+
   AfficherMasquer()
   {
   var divInfo = document.getElementById('ajoutRestaurant');
@@ -108,22 +109,15 @@ class App extends Component {
     })
   }
 
-  changeOutputTable=e=>{
-    let oldRestaurants=this.state.restaurants;
-    let nomRechercher=this.state.nomRechercher;
-    let restaurantTri: [];
-    let variable="a";
-    for(var i=0;i<this.state.restaurants.length;i++){
-       if(this.state.restaurants[i].name=="a"){
-        this.setState({
-          restaurantTri: restaurantTri.concat(this.state.restaurants[i]),
-        });
-        //restaurantTri
-       }
-    }
-    this.state.restaurants=restaurantTri;
+  naviger(event){
 
+    let butn = event.target.innerText;
+    let num = parseInt(butn);
+ 
+    
+    this.setState({page: num}, () => this.componentWillMount());
   }
+
   addRestaurant=e=>{
    //var snomRestaurant = this.refs.nomResto.getDOMNode().value;
     e.preventDefault();
@@ -205,10 +199,10 @@ class App extends Component {
       </tbody>
       </table>
       <div className="navigation"><br/>
-              <button type="button" id="idButton" onClick={(event) => this.navigater(event)}><p>1</p></button>
-              <button type="button" id="idButton" onClick={(event) => this.navigater(event)}><p>2</p></button>
-              <button type="button" id="idButton" onClick={(event) => this.navigater(event)}><p>3</p></button>
-              ........<button type="button" id="idButton" onClick={(event) => this.navigate(event)}><p>Suivat</p></button>
+              <button type="button" id="idButton1" onClick={(event) => this.naviger(event)}><p>1</p></button>
+              <button type="button" id="idButton2" onClick={(event) => this.naviger(event)}><p>2</p></button>
+              <button type="button" id="idButton3" onClick={(event) => this.naviger(event)}><p>3</p></button>
+              ........<button type="button" id="idButton" onClick={(event) => this.naviger(event)}><p>Suivat</p></button>
      </div>
      <br/><br/>
   </div>
