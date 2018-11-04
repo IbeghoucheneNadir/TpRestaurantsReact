@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import './App.css';
 //import Restaurant from './components/Restaurant';
 
@@ -14,14 +13,12 @@ class App extends Component {
       newResName: '',
       newResCuisine: '',
       nomRestaurant:'',
-      nomCuisine:''
+      nomCuisine:'',
+      nomRechercher:'',
+      value2:null
     }
     this.update = this.update.bind(this);
   }
-  
-
-
-
   
 	update(event){
     let target = event.target;
@@ -110,6 +107,23 @@ class App extends Component {
       [e.target.name]:e.target.value
     })
   }
+
+  changeOutputTable=e=>{
+    let oldRestaurants=this.state.restaurants;
+    let nomRechercher=this.state.nomRechercher;
+    let restaurantTri: [];
+    let variable="a";
+    for(var i=0;i<this.state.restaurants.length;i++){
+       if(this.state.restaurants[i].name=="a"){
+        this.setState({
+          restaurantTri: restaurantTri.concat(this.state.restaurants[i]),
+        });
+        //restaurantTri
+       }
+    }
+    this.state.restaurants=restaurantTri;
+
+  }
   addRestaurant=e=>{
    //var snomRestaurant = this.refs.nomResto.getDOMNode().value;
     e.preventDefault();
@@ -148,9 +162,30 @@ class App extends Component {
       <div id="entete">
               <h3>Table des restaurants :</h3>
               Nombre de restaurants : {this.state.restaurants.length}
+              <div id="nbElemAfficher">
+              
+            <br/><label>Elements par page  </label>
+              
+                <select defaultValue="10">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </select> 
+                </div><br/>
+               
+                <div id="blocRecherche">
               <form>
-                <input type="text" id="inputtaille"  placeholder="Chercher par nom"/> 
+                <input 
+                 name="nomRechercher"
+                // value={this.state.nomRechercher}
+                 onChange={e=>this.changeOutputTable()}  //  onChange={this.changeInputMessage.bind(this)}
+                 ref="nomRechercher"
+                 type="text"
+                 id="nomRechercher"
+                 placeholder="Chercher par nom"
+                /> 
               </form>
+              </div>
               <br/> 
       </div>
               <div id="divGlobal">
@@ -169,8 +204,16 @@ class App extends Component {
         {listeRestos}
       </tbody>
       </table>
+      <div className="navigation"><br/>
+              <button type="button" id="idButton" onClick={(event) => this.navigater(event)}><p>1</p></button>
+              <button type="button" id="idButton" onClick={(event) => this.navigater(event)}><p>2</p></button>
+              <button type="button" id="idButton" onClick={(event) => this.navigater(event)}><p>3</p></button>
+              ........<button type="button" id="idButton" onClick={(event) => this.navigate(event)}><p>Suivat</p></button>
+     </div>
+     <br/><br/>
   </div>
   
+
   <div id="ajoutRestaurant">
 <div>
 <form id="formAjout">

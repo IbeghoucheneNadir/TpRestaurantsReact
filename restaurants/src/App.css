@@ -33,6 +33,7 @@
 }
 
 #myTable{
+  width: 900px;
 }
 
 .App-header {
@@ -46,7 +47,6 @@
   color: white;
 }
 th {
-  width: 300px;
   background-color:black;
   border:1px solid #282c34;
 
@@ -54,9 +54,16 @@ th {
 #entete{
   margin-left: 20%;
 }
-#inputtaille{
+
+#nbElemAfficher{
   width: 900px;
+}
+
+#blocRecherche input {
+  width: 895px;
   height: 30px;
+  border-radius: 5px;
+
 }
 td{
   border-collapse:collapse;
@@ -67,7 +74,24 @@ td{
 p{
   color: blanchedalmond;
 }
+label{
+  width: 190px;
+  height:50px ;
+}
 
+select{
+  width: 750PX;
+  height: 30px;
+  float: right;
+  border-radius: 4px;
+}
+#idButton{
+  width: 45px;
+  height: 45px;
+  margin-right: 1px;
+  background-color: black;
+  border-radius: 5px;
+}
 #myTable{
   border-collapse:collapse;
 } 
