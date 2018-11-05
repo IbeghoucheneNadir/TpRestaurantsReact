@@ -47,7 +47,6 @@ class App extends Component {
         return (elem !== restaurant) ? elem : null;
       }
     );	
-		
 		this.setState({
 			restaurants: oldRestaurants
 		});
@@ -92,8 +91,6 @@ class App extends Component {
   
   componentWillMount() {
     console.log("Component will mount");
-    // on va chercher des donnees sur le Web avec fetch, comme
-    // on a fait avec VueJS
     this.getDataFromServer();
   }
 
@@ -106,7 +103,6 @@ class App extends Component {
   changeOutputTable(event){
     let nomRechercher = document.getElementById("nomRechercher").value;
       if(this.state.nomRestaurant !== nomRechercher){
-
         this.setState({nomRestaurant: nomRechercher},() =>  this.componentWillMount());
       } 
   }
@@ -120,31 +116,32 @@ class App extends Component {
     let showDivEdit=this.state.showDivEdit;
     this.setState({showDivEdit:!showDivEdit,showDiv:false});
   }
+
   naviger(event){
     let num = event.target.innerText;
-    //let num = parseInt(butn);
     if(num=="Max"){
       this.getMaxPage();
       this.state.c=this.state.maxPage-1;
       this.state.b=this.state.maxPage-2;
     }
-    else{
-    if(num==this.state.b && this.state.b!=2){
+    else
+    {
+    if(num==this.state.b && this.state.b!=2)
+    {
      this.state.b-=1;
      this.state.c-=1;
     }
-    else if(num==this.state.a){
+    else if(num==this.state.a)
+    {
       this.state.b=2;
       this.state.c=3;
     }
-    else if(num==this.state.c){
+    else if(num==this.state.c)
+    {
       this.state.c+=1;
       this.state.b+=1;
     }
-    else if(num!=this.state.c && num!=this.state.c && num!=this.state.c){
-    }
   }
-   
     this.setState({page: num}, () => this.componentWillMount());
   }
 
@@ -157,12 +154,10 @@ class App extends Component {
     this.setState({nbResto: num}, () => this.componentWillMount());
   }
   editRestaurant=e=>{
-
   //  let Resto= ;
    // let Cuisine=;
   }
   addRestaurant=e=>{
-   //var snomRestaurant = this.refs.nomResto.getDOMNode().value;
     let oldRestaurants = this.state.restaurants;
     let newRestaurant = {
       name : this.state.nomRestaurant,
@@ -176,10 +171,6 @@ class App extends Component {
     for(var item of inputs){
       item.value="";
     }
-    
-   // var divInfo = document.getElementById('ajoutRestaurant');
-   // divInfo.style.display = 'none';
-
   }
   
   render() {
@@ -198,16 +189,14 @@ class App extends Component {
     );
     
     return (
-
       <div id="app">
       <div id="entete">
               <h3>Table des restaurants :</h3>
               Nombre de restaurants : {this.state.restaurants.length}
-              <div id="nbElemAfficher">
-              
+              <div id="nbElemAfficher">  
               <button type="button" id="createButton" onClick={(event) => this.showInsertForm(event)}><p>+</p></button><br/>
 
-            <br/><label>Elements par page  </label>
+              <br/><label>Elements par page  </label>
               
                 <select id="nbChoisit" defaultValue="10" onChange={(event) => this.nombreElementParPage(event)}>
                     <option value="5">5</option>
@@ -217,110 +206,103 @@ class App extends Component {
                 </div><br/>
                
                 <div id="blocRecherche">
-              <form>
-                <input 
-                 name="nomRechercher"
-                // value={this.state.nomRechercher}
-                 onChange={(event)=>this.changeOutputTable(event)}  //  onChange={this.changeInputMessage.bind(this)}
-                 ref="nomRechercher"
-                 type="text"
-                 id="nomRechercher"
-                 placeholder="Chercher par nom"
-                /> 
-              </form>
+                    <form>
+                      <input 
+                      name="nomRechercher"
+                      onChange={(event)=>this.changeOutputTable(event)}  //  onChange={this.changeInputMessage.bind(this)}
+                      ref="nomRechercher"
+                      type="text"
+                      id="nomRechercher"
+                      placeholder="Chercher par nom"
+                      /> 
+                    </form>
+                </div><br/>           
               </div>
-              <br/> 
-      </div>
-              <div id="divGlobal">
-              <div id="divLeft"></div>
-        <div id="bloc-center">
+                <div id="divGlobal">
+                <div id="divLeft"></div>
+                <div id="bloc-center">
 
-        <table  id="myTable" >
-      <thead >
-      <tr>
-          <th><p>Nom</p></th>
-          <th><p>Cuisine</p></th>
-          <th><p>Action</p></th>
-      </tr>
-      </thead>
-      <tbody>
-        {listeRestos}
-      </tbody>
-      </table>
-      <div className="navigation"><br/>
-              <button type="button" id="idButton1" onClick={(event) => this.naviger(event)}><p>{this.state.a}</p></button>
-              <button type="button" id="idButton2" onClick={(event) => this.naviger(event)}><p>{this.state.b}</p></button>
-              <button type="button" id="idButton3" onClick={(event) => this.naviger(event)}><p>{this.state.c}</p></button>
-              ........<button type="button" id="idButtonMax" onClick={(event) => this.naviger(event)}><p>Max</p></button>
-     </div>
-     
-     <br/><br/>
-  </div>
-  
+                <table  id="myTable" >
+                <thead >
+                <tr>
+                    <th><p>Nom</p></th>
+                    <th><p>Cuisine</p></th>
+                    <th><p>Action</p></th>
+                </tr>
+                </thead>
+                <tbody>
+                   {listeRestos}
+                </tbody>
+                </table>
+                <div className="navigation"><br/>
+                        <button type="button" id="idButton1" onClick={(event) => this.naviger(event)}><p>{this.state.a}</p></button>
+                        <button type="button" id="idButton2" onClick={(event) => this.naviger(event)}><p>{this.state.b}</p></button>
+                        <button type="button" id="idButton3" onClick={(event) => this.naviger(event)}><p>{this.state.c}</p></button>
+                        ........<button type="button" id="idButtonMax" onClick={(event) => this.naviger(event)}><p>Max</p></button>
+                </div><br/><br/>      
+            </div>
+          { this.state.showDiv &&  <div id="ajoutRestaurant" >
+          <div>
+                <form id="formAjout" >
+                <h3>Ajouter un restaurant </h3>
 
-{ this.state.showDiv &&  <div id="ajoutRestaurant" >
-<div>
-<form id="formAjout" >
-<h3>Ajouter un restaurant </h3>
-
-    <div  ><label id="AjoutResto">Nom</label><br/>
-          <input type="text" 
-          id="AjoutRestoInp"
-          name="nomRestaurant"
-          placeholder="Michel's restaurant" 
-          value={this.state.nomRestaurant}
-          onChange={e=>this.change(e)}
-          ref="nomResto" />
-    </div>
-    <div > <label id="AjoutResto">Cuisine</label><br/>
-           <input type="text"
-           id="AjoutRestoInp"
-           name="nomCuisine"
-           placeholder="Michel's cuisine"
-           value={this.state.cuisineRestaurant}
-           onChange={e=>this.change(e) }
-           ref="cuisineResto" />
-           
-    </div>
-    <div >
-            <button id="boutonAjout" onClick={e=>this.addRestaurant(e)}>Créer un restaurant</button>
-    </div>
-</form>
-</div>
-</div>}
-{ this.state.showDivEdit &&  <div id="ajoutRestaurant" >
-<div>
-<form id="formAjout" >
-<h3>Modifier le restaurant </h3>
-    <div  ><label id="AjoutResto">Nom</label><br/>
-          <input type="text" 
-          id="AjoutRestoInp"
-          name="nomRestaurant"
-          onChange={e=>this.change(e)}
-          required defaultValue={this.state.unResto.name}
-          ref="nomResto" />
-    </div>
-    <div > <label id="AjoutResto">Cuisine</label><br/>
-           <input type="text"
-           id="AjoutRestoInp"
-           name="nomCuisine"
-           required defaultValue={this.state.unResto.cuisine}
-           onChange={e=>this.change(e) }
-           ref="cuisineResto" />
-           
-    </div>
-    <div >
-            <button id="boutonAjout" onClick={e=>this.editRestaurant(e)}>Modifier</button>
-    </div>
-</form>
-</div>
-</div>}
-</div>
-</div>
+                    <div  ><label id="AjoutResto">Nom</label><br/>
+                          <input type="text" 
+                          id="AjoutRestoInp"
+                          name="nomRestaurant"
+                          placeholder="Michel's restaurant" 
+                          value={this.state.nomRestaurant}
+                          onChange={e=>this.change(e)}
+                          ref="nomResto" />
+                    </div>
+                    <div > <label id="AjoutResto">Cuisine</label><br/>
+                          <input type="text"
+                          id="AjoutRestoInp"
+                          name="nomCuisine"
+                          placeholder="Michel's cuisine"
+                          value={this.state.cuisineRestaurant}
+                          onChange={e=>this.change(e) }
+                          ref="cuisineResto" />
+                          
+                    </div>
+                    <div >
+                      <button id="boutonAjout" onClick={e=>this.addRestaurant(e)}>Créer un restaurant</button>
+               </div>
+              </form>
+             </div>
+             </div>}
+               { this.state.showDivEdit &&  <div id="ajoutRestaurant" >
+                <div>
+                <form id="formAjout" >
+                <h3>Modifier le restaurant </h3>
+                    <div  ><label id="AjoutResto">Nom</label><br/>
+                          <input type="text" 
+                          id="AjoutRestoInp"
+                          name="nomRestaurant"
+                          onChange={e=>this.change(e)}
+                          required defaultValue={this.state.unResto.name}
+                          ref="nomResto" />
+                    </div>
+                    <div > <label id="AjoutResto">Cuisine</label><br/>
+                          <input type="text"
+                          id="AjoutRestoInp"
+                          name="nomCuisine"
+                          required defaultValue={this.state.unResto.cuisine}
+                          onChange={e=>this.change(e) }
+                          ref="cuisineResto" />
+                          
+                    </div>
+                    <div >
+                            <button id="boutonAjout" onClick={e=>this.editRestaurant(e)}>Modifier</button>
+                    </div>
+                </form>
+                </div>
+                </div>}
+          </div>
+          </div>
     );
   }
 }
-
 export default App;
 
 
