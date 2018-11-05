@@ -23,15 +23,42 @@
 }
 
 #ajoutRestaurant{
-  width: 20%;
-  background-color: antiquewhite;
- /* display :none;*/
+  border: 1px solid;
+  width: 17%;
+  height:250px ;
+  border-radius: 10px;
+  border-color:black;
 }
-
+#edit{
+  width: 50px;
+  height: 30px;
+}
 #formAjout{
-  background-color: blue;
-}
+  border-radius: 10px;
+  border-color: black;
 
+}
+#AjoutRestoInp{
+  border: 1px solid;
+  border-radius: 3px;
+  margin:10px;
+  height: 25px;
+  border-color: black;
+}
+#AjoutResto{
+  margin:10px;
+}
+h3{
+  margin-left: 10px;
+}
+#boutonAjout{
+  border: 1px solid;
+  border-radius: 3px;
+  height:25px;
+  margin-left:10px;
+  color: r1ed;
+  border-color: black;
+}
 #myTable{
   width: 900px;
 }
@@ -84,6 +111,16 @@ select{
   height: 30px;
   float: right;
   border-radius: 4px;
+}
+#createButton{
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  border: black;
+  background-color: black;
+}
+#createButton p{
+  color: white;
 }
 #idButton1, #idButton2, #idButton3, #idButtonMax{
   width: 45px;

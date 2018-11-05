@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+
 //import Restaurant from './components/Restaurant';
 
 
@@ -18,6 +19,11 @@ class App extends Component {
       value2:null,
       nbResto: 10,
       page: 1,
+      showDiv: false,
+      showDivEdit:false,
+      a:1,
+      b:2,
+      c:3,
     }
     this.update = this.update.bind(this);
   }
@@ -29,21 +35,6 @@ class App extends Component {
     this.setState({
       [name] : value
     });
-  }
-  
-  addRestaurants() {
-    let oldRestaurants = this.state.restaurants;
-    let newRestaurant = {
-      name : this.state.newResName,
-      cuisine : this.state.newResCuisine
-    }
-		this.setState({
-      restaurants: oldRestaurants.concat(newRestaurant),
-    });
-    let inputs = document.getElementsByTagName("input");
-    for(var item of inputs){
-      item.value="";
-    }
   }
   
   removeRestaurants(restaurant) {
@@ -85,17 +76,6 @@ class App extends Component {
      });
   }
 
-  AfficherMasquer()
-  {
-  var divInfo = document.getElementById('ajoutRestaurant');
-   
-  if (divInfo.style.display == 'none')
-  divInfo.style.display = 'block';
-  else
-  divInfo.style.display = 'none';
-   
-  }
-
   componentWillMount() {
     console.log("Component will mount");
     // on va chercher des donnees sur le Web avec fetch, comme
@@ -110,15 +90,39 @@ class App extends Component {
   }
 
   changeOutputTable(event){
-    let select = document.getElementById("nomRechercher");
-    // a venir 
+    let nomRechercher = document.getElementById("nomRechercher").value;
+      if(this.state.nomRestaurant !== nomRechercher){
+        this.setState({nomRestaurant: nomRechercher},() =>  this.componentWillMount());
+      } 
   }
 
+  showInsertForm(event){
+    let showDiv=this.state.showDiv;
+    this.setState({showDiv:!showDiv},);
+  }
+
+  showUpdateForm(event){
+    let showDivEdit=this.state.showDivEdit;
+    this.setState({showDivEdit:!showDivEdit},);
+  }
   naviger(event){
     let butn = event.target.innerText;
     let num = parseInt(butn);
-    
+    if(num==this.state.b && this.state.b!=2){
+     this.state.b-=1;
+     this.state.c-=1;
+    }
+    else if(num==this.state.a){
+      this.state.b=2;
+      this.state.c=3;
+    }
+    else if(num==this.state.c){
+      this.state.c+=1;
+      this.state.b+=1;
+    }
+
     this.setState({page: num}, () => this.componentWillMount());
+
   }
 
   nombreElementParPage(event){
@@ -128,14 +132,14 @@ class App extends Component {
     let num = parseInt(valeur);
     
     this.setState({nbResto: num}, () => this.componentWillMount());
+  }
+  editRestaurant=e=>{
 
-    //texte = select.options[choice].text;
+  //  let Resto= ;
+   // let Cuisine=;
   }
   addRestaurant=e=>{
    //var snomRestaurant = this.refs.nomResto.getDOMNode().value;
-    e.preventDefault();
-    console.log(this.state.nomRestaurant);
-
     let oldRestaurants = this.state.restaurants;
     let newRestaurant = {
       name : this.state.nomRestaurant,
@@ -144,10 +148,17 @@ class App extends Component {
 		this.setState({
       restaurants: oldRestaurants.concat(newRestaurant),
     });
+
+    let inputs = document.getElementsByTagName("input");
+    for(var item of inputs){
+      item.value="";
+    }
+    
    // var divInfo = document.getElementById('ajoutRestaurant');
    // divInfo.style.display = 'none';
 
   }
+  
   render() {
 
     let listeRestos = this.state.restaurants.map( (resto, index) => {
@@ -157,7 +168,7 @@ class App extends Component {
           <td>{resto.cuisine}</td>
           <td>
             <button onClick={() => this.removeRestaurants(resto)}>Delete</button>
-            <button onClick={() => this.AfficherMasquer()}>Edit</button>
+            <button id="edit" type="button" onClick={(event) => this.showUpdateForm(event)}>Edit</button>
           </td>
         </tr>
       )}
@@ -171,6 +182,8 @@ class App extends Component {
               Nombre de restaurants : {this.state.restaurants.length}
               <div id="nbElemAfficher">
               
+              <button type="button" id="createButton" onClick={(event) => this.showInsertForm(event)}><p>+</p></button><br/>
+
             <br/><label>Elements par page  </label>
               
                 <select id="nbChoisit" defaultValue="10" onChange={(event) => this.nombreElementParPage(event)}>
@@ -212,42 +225,76 @@ class App extends Component {
       </tbody>
       </table>
       <div className="navigation"><br/>
-              <button type="button" id="idButton1" onClick={(event) => this.naviger(event)}><p>1</p></button>
-              <button type="button" id="idButton2" onClick={(event) => this.naviger(event)}><p>2</p></button>
-              <button type="button" id="idButton3" onClick={(event) => this.naviger(event)}><p>3</p></button>
+              <button type="button" id="idButton1" onClick={(event) => this.naviger(event)}><p>{this.state.a}</p></button>
+              <button type="button" id="idButton2" onClick={(event) => this.naviger(event)}><p>{this.state.b}</p></button>
+              <button type="button" id="idButton3" onClick={(event) => this.naviger(event)}><p>{this.state.c}</p></button>
               ........<button type="button" id="idButtonMax" onClick={(event) => this.naviger(event)}><p>Max</p></button>
      </div>
+     
      <br/><br/>
   </div>
   
 
-  <div id="ajoutRestaurant">
+{ this.state.showDiv &&  <div id="ajoutRestaurant" >
 <div>
-<form id="formAjout">
+<form id="formAjout" >
 <h3>Ajouter un restaurant </h3>
 
-    <div  >
+    <div  ><label id="AjoutResto">Nom</label><br/>
           <input type="text" 
+          id="AjoutRestoInp"
           name="nomRestaurant"
-          placeholder="restaurant" 
+          placeholder="Michel's restaurant" 
           value={this.state.nomRestaurant}
           onChange={e=>this.change(e)}
           ref="nomResto" />
     </div>
-    <div >
+    <div > <label id="AjoutResto">Cuisine</label><br/>
            <input type="text"
+           id="AjoutRestoInp"
            name="nomCuisine"
-           placeholder="cuisine"
+           placeholder="Michel's cuisine"
            value={this.state.cuisineRestaurant}
            onChange={e=>this.change(e) }
            ref="cuisineResto" />
+           
     </div>
     <div >
-            <button onClick={e=>this.addRestaurant(e)}>Créer un restaurant</button>
+            <button id="boutonAjout" onClick={e=>this.addRestaurant(e)}>Créer un restaurant</button>
     </div>
 </form>
 </div>
+</div>}
+{ this.state.showDivEdit &&  <div id="ajoutRestaurant" >
+<div>
+<form id="formAjout" >
+<h3>Modifier le restaurant </h3>
+
+    <div  ><label id="AjoutResto">Nom</label><br/>
+          <input type="text" 
+          id="AjoutRestoInp"
+          name="nomRestaurant"
+          placeholder="Michel's restaurant" 
+          value={this.state.nomRestaurant}
+          onChange={e=>this.change(e)}
+          ref="nomResto" />
+    </div>
+    <div > <label id="AjoutResto">Cuisine</label><br/>
+           <input type="text"
+           id="AjoutRestoInp"
+           name="nomCuisine"
+           placeholder="Michel's cuisine"
+           value={this.state.cuisineRestaurant}
+           onChange={e=>this.change(e) }
+           ref="cuisineResto" />
+           
+    </div>
+    <div >
+            <button id="boutonAjout" onClick={e=>this.editRestaurant(e)}>Modifier</button>
+    </div>
+</form>
 </div>
+</div>}
 </div>
 </div>
     );
