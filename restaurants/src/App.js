@@ -24,6 +24,7 @@ class App extends Component {
       a:1,
       b:2,
       c:3,
+      maxPage:'',
     }
     this.update = this.update.bind(this);
   }
@@ -53,7 +54,6 @@ class App extends Component {
   
  
   getDataFromServer() {
-    console.log("--- GETTING DATA ---");
      fetch('http://localhost:8080/api/restaurants?page='+ this.state.page + "&pagesize=" + this.state.nbResto)
      .then(response => {
        return response.json() // transforme le json texte en objet js
@@ -76,6 +76,19 @@ class App extends Component {
      });
   }
 
+  getMaxPage(){
+    fetch("http://localhost:8080/api/restaurants/count")
+    .then(response => {
+      return response.json();
+    }).then(resp => {
+      let maxpagevalue = Math.ceil(resp.data/this.state.nbResto)-1;
+      this.setState({maxPage: maxpagevalue, page:maxpagevalue},()=>this.componentWillMount());
+
+    }).catch(err => {
+      console.log("erreur dans le get : " + err)
+    });
+  }
+  
   componentWillMount() {
     console.log("Component will mount");
     // on va chercher des donnees sur le Web avec fetch, comme
@@ -106,8 +119,14 @@ class App extends Component {
     this.setState({showDivEdit:!showDivEdit},);
   }
   naviger(event){
-    let butn = event.target.innerText;
-    let num = parseInt(butn);
+    let num = event.target.innerText;
+    //let num = parseInt(butn);
+    if(num=="Max"){
+      this.getMaxPage();
+      this.state.c=this.state.maxPage-1;
+      this.state.b=this.state.maxPage-2;
+    }
+    else{
     if(num==this.state.b && this.state.b!=2){
      this.state.b-=1;
      this.state.c-=1;
@@ -120,9 +139,11 @@ class App extends Component {
       this.state.c+=1;
       this.state.b+=1;
     }
-
+    else if(num!=this.state.c && num!=this.state.c && num!=this.state.c){
+    }
+  }
+   
     this.setState({page: num}, () => this.componentWillMount());
-
   }
 
   nombreElementParPage(event){
