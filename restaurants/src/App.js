@@ -11,6 +11,7 @@ class App extends Component {
       
     this.state = {
       restaurants:[],
+      unResto: {"nom":"", "cuisine":""},
       newResName: '',
       newResCuisine: '',
       nomRestaurant:'',
@@ -54,7 +55,7 @@ class App extends Component {
   
  
   getDataFromServer() {
-     fetch('http://localhost:8080/api/restaurants?page='+ this.state.page + "&pagesize=" + this.state.nbResto)
+     fetch('http://localhost:8080/api/restaurants?page='+ this.state.page + "&pagesize=" + this.state.nbResto+"&name="+this.state.nomRestaurant)
      .then(response => {
        return response.json() // transforme le json texte en objet js
      })
@@ -82,7 +83,7 @@ class App extends Component {
       return response.json();
     }).then(resp => {
       let maxpagevalue = Math.ceil(resp.data/this.state.nbResto)-1;
-      this.setState({maxPage: maxpagevalue, page:maxpagevalue},()=>this.componentWillMount());
+      this.setState({maxPage: maxpagevalue, page:maxpagevalue});
 
     }).catch(err => {
       console.log("erreur dans le get : " + err)
@@ -105,18 +106,19 @@ class App extends Component {
   changeOutputTable(event){
     let nomRechercher = document.getElementById("nomRechercher").value;
       if(this.state.nomRestaurant !== nomRechercher){
+
         this.setState({nomRestaurant: nomRechercher},() =>  this.componentWillMount());
       } 
   }
 
   showInsertForm(event){
     let showDiv=this.state.showDiv;
-    this.setState({showDiv:!showDiv},);
+    this.setState({showDiv:!showDiv,showDivEdit:false});
   }
 
   showUpdateForm(event){
     let showDivEdit=this.state.showDivEdit;
-    this.setState({showDivEdit:!showDivEdit},);
+    this.setState({showDivEdit:!showDivEdit,showDiv:false});
   }
   naviger(event){
     let num = event.target.innerText;
@@ -188,7 +190,7 @@ class App extends Component {
           <td>{resto.name}</td>
           <td>{resto.cuisine}</td>
           <td>
-            <button onClick={() => this.removeRestaurants(resto)}>Delete</button>
+            <button id="deleteBtn" onClick={() => this.removeRestaurants(resto)}>Delete</button>
             <button id="edit" type="button" onClick={(event) => this.showUpdateForm(event)}>Edit</button>
           </td>
         </tr>
@@ -290,22 +292,19 @@ class App extends Component {
 <div>
 <form id="formAjout" >
 <h3>Modifier le restaurant </h3>
-
     <div  ><label id="AjoutResto">Nom</label><br/>
           <input type="text" 
           id="AjoutRestoInp"
           name="nomRestaurant"
-          placeholder="Michel's restaurant" 
-          value={this.state.nomRestaurant}
           onChange={e=>this.change(e)}
+          required defaultValue={this.state.unResto.name}
           ref="nomResto" />
     </div>
     <div > <label id="AjoutResto">Cuisine</label><br/>
            <input type="text"
            id="AjoutRestoInp"
            name="nomCuisine"
-           placeholder="Michel's cuisine"
-           value={this.state.cuisineRestaurant}
+           required defaultValue={this.state.unResto.cuisine}
            onChange={e=>this.change(e) }
            ref="cuisineResto" />
            
